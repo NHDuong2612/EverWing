@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1742372991 source:d:\lap trinh nang cao\everwing\main.cpp
+	"information.h"
+	"loadTexture.h"
+
+1742365909 source:d:\lap trinh nang cao\everwing\loadtexture.cpp
+	"loadTexture.h"
+	<iostream>
+
+1742365743 d:\lap trinh nang cao\everwing\loadtexture.h
+	<SDL.h>
+	<SDL_image.h>
+
+1742370137 d:\lap trinh nang cao\everwing\information.h
+	<SDL.h>
+	<vector>
+	<cstdlib>
+	<ctime>
+	<algorithm>
+	<iostream>
+	<SDL_image.h>
+	<cmath>
+	<SDL_mixer.h>
+
