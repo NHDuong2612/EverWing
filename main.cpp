@@ -11,14 +11,17 @@ int main(int argc, char* argv[]) {
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_Texture* backgroundTexture = loadTexture("image/space.png", renderer);
     SDL_Texture* menuTexture = loadTexture("image/menu.png", renderer);
-    bulletTextures[0] = loadTexture("image/bullet1.png", renderer);
-    bulletTextures[1] = loadTexture("image/bullet2.png", renderer);
-    bulletTextures[2] = loadTexture("image/bullet3.png", renderer);
-    bulletTextures[3] = loadTexture("image/bullet4.png", renderer);
+    bulletTextures[0] = loadTexture("image/bullet0.png", renderer);
+    bulletTextures[2] = loadTexture("image/bullet1.png", renderer);
+    bulletTextures[3] = loadTexture("image/bullet2.png", renderer);
+    bulletTextures[4] = loadTexture("image/bullet3.png", renderer);
+    bulletTextures[1] = loadTexture("image/bullet4.png", renderer);
     currentBulletTexture = bulletTextures[0];
     playerTexture = loadTexture("image/pngegg.png", renderer);
     upgradeTexture = loadTexture("image/upgrade.png",renderer);
     enemiesTexture = loadTexture("image/enemis.png",renderer);
+    enemiesFireTexture = loadTexture("image/enemisFire.png", renderer);
+    enemiesFireBulletTexture = loadTexture("image/enemiesFireBullet.png", renderer);
     bossTexture[0] = loadTexture("image/boss.png",renderer);
     bossTexture[1] = loadTexture("image/boss2.png",renderer);
     bossTexture[2] = loadTexture("image/boss3.png",renderer);
@@ -27,26 +30,16 @@ int main(int argc, char* argv[]) {
     Mix_Chunk* boomEffect = Mix_LoadWAV("sounds/boom.WAV");
     Mix_Chunk* dieEffect = Mix_LoadWAV("sounds/die.wav");
     Mix_Chunk* bossDieEffect = Mix_LoadWAV("sounds/explosion.wav");
-    srand(time(0));
-    int playerX = SCREEN_WIDTH / 2 - 25;
-    int playerY = SCREEN_HEIGHT - 80;
-    int score = 0;
-    int frameCount = 0;
-    int bossCount = 0;
-    bool canShoot = true;
-    bool running = false;
-    bool menu = true;
     Mix_Music* bgMusic = Mix_LoadMUS("sounds/music.mp3");
     Mix_PlayMusic(bgMusic, -1);  // Phát lặp vô hạn
     Mix_VolumeMusic(60);
+    srand(time(0));
     SDL_Event e;
     SDL_Event event;
     while (menu){
         while(SDL_PollEvent(&e)){
             if (e.type == SDL_QUIT) menu = false;
             if (e.type == SDL_MOUSEBUTTONDOWN) {
-        // Giả sử nút Play có vị trí và kích thước sau
-                SDL_Rect playButton = {300, 300, 200,50};
 
                 if (e.button.x >= playButton.x && e.button.x <= playButton.x + playButton.w &&
                     e.button.y >= playButton.y && e.button.y <= playButton.y + playButton.h) {
@@ -93,9 +86,14 @@ int main(int argc, char* argv[]) {
             if (frameCount % ENEMY_SPAWN_RATE == 0) {
                 enemies.push_back({rand() % (SCREEN_WIDTH - 50), 0, ENEMY_HEALTH});
             }
-
+            if (frameCount % ENEMYFIRE_SPAWN_RATE == 0) {
+                enemiesFire.push_back({rand() % (SCREEN_WIDTH - 50), 0, ENEMY_HEALTH});
+            }
+            if (!enemiesFire.empty() && frameCount % 120 == 0) {
+                enemiesFireBullets.push_back({enemiesFire.back().x + 20, enemiesFire.back().y + 20});
+            }
             for (auto& enemy : enemies) enemy.y += ENEMY_SPEED;
-
+            for (auto& enemyFire: enemiesFire) enemyFire.y += ENEMY_SPEED;
             for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
                 bool hit = false;
                 for (auto enemyIt = enemies.begin(); enemyIt != enemies.end();) {
@@ -124,7 +122,36 @@ int main(int argc, char* argv[]) {
                 }
                 if (!hit) ++bulletIt;
             }
-
+            for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
+                bool hit = false;
+                for (auto enemyFireIt = enemiesFire.begin(); enemyFireIt != enemiesFire.end();) {
+                    if (bulletIt->x < enemyFireIt->x + 50 && bulletIt->x + BULLET_SIZE > enemyFireIt->x &&
+                        bulletIt->y < enemyFireIt->y + 30 && bulletIt->y + BULLET_SIZE > enemyFireIt->y) {
+                        enemyFireIt->health -=BULLET_POWER ; // Giảm máu theo sức mạnh của viên đạn
+                        bulletIt = bullets.erase(bulletIt);
+                        if (enemyFireIt->health <= 0) {
+                            Mix_PlayChannel(-1, boomEffect, 0);
+                            if (rand() % 100 < UPGRADE_DROP_CHANCE) {
+                                upgrades.push_back({enemyFireIt->x + 20, enemyFireIt->y + 20});
+                            }
+                            enemyFireIt = enemiesFire.erase(enemyFireIt);
+                            score += 10;
+                            if (score % 150 == 0) {
+                                ENEMY_HEALTH+=ENEMY_HEALTH;
+                                ENEMY_SPEED = std::min(10, ENEMY_SPEED + 1);
+                                ENEMYFIRE_SPAWN_RATE = std::max(40, ENEMYFIRE_SPAWN_RATE-5);
+                                ENEMY_BULLET_SIZE++;
+                                ENEMY_BULLET_SPEED++;
+                            }
+                        }
+                        hit = true;
+                        break;
+                    } else {
+                        ++enemyFireIt;
+                    }
+                }
+                if (!hit) ++bulletIt;
+            }
 
             for (auto it = upgrades.begin(); it != upgrades.end();) {
                 it->y += 2;
@@ -133,7 +160,6 @@ int main(int argc, char* argv[]) {
                     PLAYER_SPEED = std::min(PLAYER_SPEED + 1, 10);
                     BULLET_POWER++;
                     BULLET_SIZE =std::min(BULLET_SIZE+1,25);
-
                     upgradeCount++;
                     if (upgradeCount >= nextUpgradeLevel) {
                         if (BULLET_QUANTITY < 5) {
@@ -141,8 +167,8 @@ int main(int argc, char* argv[]) {
                         }
                         nextUpgradeLevel+=upgradeCount;
                         upgradeCount = 0;
+                        currentBulletTexture = bulletTextures[(int)std::log2(nextUpgradeLevel)-1];
                     }
-                    currentBulletTexture = bulletTextures[(int)std::log2(nextUpgradeLevel)-1];
                     it = upgrades.erase(it);
                 } else if (it->y > SCREEN_HEIGHT) {
                     it = upgrades.erase(it);
@@ -151,6 +177,14 @@ int main(int argc, char* argv[]) {
                 }
             }
 
+            for (const auto& enemyFire : enemiesFire) {
+                if (playerX + 15 < enemyFire.x + 50 && playerX + 55 > enemyFire.x &&
+                    playerY < enemyFire.y + 25 && playerY + 45 > enemyFire.y) {
+                    Mix_PlayChannel(-1, dieEffect, 0);
+                    SDL_Delay(100);
+                    running = false;
+                }
+            }
             for (const auto& enemy : enemies) {
                 if (playerX + 15 < enemy.x + 50 && playerX + 55 > enemy.x &&
                     playerY < enemy.y + 25 && playerY + 45 > enemy.y) {
@@ -173,6 +207,10 @@ int main(int argc, char* argv[]) {
             for (const auto& enemy : enemies) {
                 SDL_Rect e = {enemy.x, enemy.y, 50, 50 };
                 SDL_RenderCopy(renderer, enemiesTexture, NULL, &e);
+            }
+            for (const auto& enemyFire : enemiesFire) {
+                SDL_Rect e = {enemyFire.x, enemyFire.y, 50, 50 };
+                SDL_RenderCopy(renderer, enemiesFireTexture, NULL, &e);
             }
             if (score % 500 == 0 && score >0 && boss == nullptr ) {
                 currentBossTexture=bossTexture[bossCount];
@@ -205,7 +243,7 @@ int main(int argc, char* argv[]) {
                 it->y += BOSS_BULLET_SPEED;
 
                 if (boss && it->x < playerX + 45 && it->x + BOSS_BULLET_SIZE > playerX &&
-                it->y < playerY + 45 && it->y + BOSS_BULLET_SIZE > playerY) {
+                    it->y < playerY + 45 && it->y + 2*BOSS_BULLET_SIZE > playerY) {
                     running = false; // Game kết thúc
                 }
                 if (it->y > SCREEN_HEIGHT) {
@@ -214,7 +252,19 @@ int main(int argc, char* argv[]) {
                     ++it;
                 }
             }
+            for (auto it = enemiesFireBullets.begin(); it != enemiesFireBullets.end();) {
+                it->y += ENEMY_BULLET_SPEED;
 
+                if ( it->x < playerX + 45 && it->x + ENEMY_BULLET_SIZE > playerX + 20 &&
+                    it->y < playerY + 45 && it->y + 2*ENEMY_BULLET_SIZE > playerY + 20) {
+                    running = false; // Game kết thúc
+                }
+                if (it->y > SCREEN_HEIGHT) {
+                    it = enemiesFireBullets.erase(it);
+                } else {
+                    ++it;
+                }
+            }
             if (boss) {
                 for (auto bulletIt = bullets.begin(); bulletIt != bullets.end();) {
                     if (bulletIt->x < boss->x + 100 && bulletIt->x + BULLET_SIZE > boss->x &&
@@ -238,8 +288,12 @@ int main(int argc, char* argv[]) {
             }
 
             for (const auto& bossBullet : bossBullets) {
-                SDL_Rect b = {bossBullet.x, bossBullet.y, BOSS_BULLET_SIZE, BOSS_BULLET_SIZE};
+                SDL_Rect b = {bossBullet.x, bossBullet.y, BOSS_BULLET_SIZE, 3*BOSS_BULLET_SIZE};
                 SDL_RenderCopy(renderer, bossBulletTexture, NULL, &b);
+            }
+            for (const auto& enemiesBullet : enemiesFireBullets) {
+                SDL_Rect b = {enemiesBullet.x, enemiesBullet.y, ENEMY_BULLET_SIZE, 3*ENEMY_BULLET_SIZE};
+                SDL_RenderCopy(renderer, enemiesFireBulletTexture, NULL, &b);
             }
 
             for (const auto& bullet : bullets) {
@@ -260,11 +314,13 @@ int main(int argc, char* argv[]) {
             SDL_RenderPresent(renderer);
             SDL_Delay(16);
         }
-        currentBulletTexture = loadTexture("image/bullet1.png", renderer);
+        currentBulletTexture = loadTexture("image/bullet0.png", renderer);
         bullets.clear();
         enemies.clear();
         upgrades.clear();
         bossBullets.clear();
+        enemiesFire.clear();
+        enemiesFireBullets.clear();
         boss = nullptr;
         score = 0;
         frameCount = 0;
@@ -276,6 +332,7 @@ int main(int argc, char* argv[]) {
         BULLET_POWER = 2;
         ENEMY_SPEED = 3;
         ENEMY_SPAWN_RATE = 50;
+        ENEMYFIRE_SPAWN_RATE = 50;
         ENEMY_HEALTH = 5;
         BOSS_HEALTH = 400;
         BOSS_SPEED = 2;
