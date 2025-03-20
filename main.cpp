@@ -7,6 +7,15 @@ int main(int argc, char* argv[]) {
         printf("SDL_mixer Error: %s\n", Mix_GetError());
         return -1;
     }
+    if (TTF_Init() == -1) {
+        std::cerr << "Failed to initialize SDL_ttf! TTF_Error: " << TTF_GetError() << std::endl;
+        return -1;
+    }
+    TTF_Font* font = TTF_OpenFont("font/font.ttf", 28); // Load font với kích thước 28
+    if (!font) {
+        std::cerr << "Failed to load font! TTF_Error: " << TTF_GetError() << std::endl;
+        return -1;
+    }
     SDL_Window* window = SDL_CreateWindow("EverWing SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_Texture* backgroundTexture = loadTexture("image/space.png", renderer);
@@ -108,7 +117,7 @@ int main(int argc, char* argv[]) {
                             }
                             enemyIt = enemies.erase(enemyIt);
                             score += 10;
-                            if (score % 150 == 0) {
+                            if (score % 200 == 0) {
                                 ENEMY_HEALTH+=ENEMY_HEALTH;
                                 ENEMY_SPEED = std::min(10, ENEMY_SPEED + 1);
                                 ENEMY_SPAWN_RATE = std::max(40, ENEMY_SPAWN_RATE-5);
@@ -309,7 +318,7 @@ int main(int argc, char* argv[]) {
                 SDL_RenderCopy(renderer,currentBossTexture,NULL, &bossRect);
             }
 
-            renderScore(renderer, score);
+            renderScore(renderer, score, font);
             frameCount++;
             SDL_RenderPresent(renderer);
             SDL_Delay(16);
@@ -366,6 +375,8 @@ int main(int argc, char* argv[]) {
     Mix_FreeChunk(soundEffect);
     Mix_FreeChunk(boomEffect);
     Mix_CloseAudio();
+    TTF_CloseFont(font);
+    TTF_Quit();
     SDL_Quit();
     return 0;
 }

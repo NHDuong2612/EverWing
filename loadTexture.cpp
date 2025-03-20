@@ -12,15 +12,22 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     return newTexture;
 }
 
-void renderScore(SDL_Renderer* renderer, int score) {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-    const int blockSize = 10;
-    const int blocksPerRow = 50;
-    for (int i = 0; i < score / 10; ++i) {
-        int x = 10 + (i % blocksPerRow) * (blockSize + 5);
-        int y = 10 + (i / blocksPerRow) * (blockSize + 5);
-        SDL_Rect scoreBlock = {x, y, blockSize, blockSize};
-        SDL_RenderFillRect(renderer, &scoreBlock);
+void renderScore(SDL_Renderer* renderer, int score, TTF_Font* font) {
+    SDL_Color textColor = {255, 255, 0, 255}; // Màu vàng
+    std::string scoreText = "Score: " + std::to_string(score);
+
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, scoreText.c_str(), textColor);
+    if (!textSurface) {
+        std::cerr << "Failed to render text surface! TTF_Error: " << TTF_GetError() << std::endl;
+        return;
     }
+
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect renderQuad = {10, 10, textSurface->w, textSurface->h}; // Vị trí hiển thị điểm
+
+    SDL_RenderCopy(renderer, textTexture, NULL, &renderQuad);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
 }
 

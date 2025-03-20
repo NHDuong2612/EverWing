@@ -3,15 +3,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
-#include<iostream>
-#include<SDL_image.h>
-#include<cmath>
-#include<SDL_mixer.h>
+#include <iostream>
+#include <SDL_image.h>
+#include <cmath>
+#include <SDL_mixer.h>
+#include<SDL_TTF.h>
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const int UPGRADE_DROP_CHANCE = 100;
+const int UPGRADE_DROP_CHANCE = 15;
 int PLAYER_SPEED = 5;
 int BULLET_SPEED = 8;
 int BULLET_SIZE = 10;
@@ -19,7 +20,7 @@ int BULLET_QUANTITY = 1;
 int BULLET_POWER = 2;
 int ENEMY_SPEED = 3;
 int ENEMY_SPAWN_RATE = 50;
-int ENEMY_HEALTH = 5;
+int ENEMY_HEALTH = 4;
 int BOSS_HEALTH = 400;
 int BOSS_SPEED = 2;
 int BOSS_BULLET_SPEED = 7;
@@ -55,6 +56,7 @@ Mix_Chunk* soundEffect = nullptr;
 Mix_Chunk* boomEffect = nullptr;
 Mix_Chunk* dieEffect = nullptr;
 Mix_Chunk* bossDieEffect = nullptr;
+TTF_Font* font = nullptr;
 
 SDL_Rect playButton = {300, 300, 180,40};
 
