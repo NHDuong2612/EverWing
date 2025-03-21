@@ -11,6 +11,7 @@ void initGame() {
     Mix_PlayMusic(bgMusic, -1);
     Mix_VolumeMusic(80);
     Mix_VolumeChunk(soundEffect, 80);
+    Mix_VolumeChunk(upgradeEffect, 400);
     srand(time(0));
 }
 

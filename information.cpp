@@ -53,6 +53,7 @@ Mix_Chunk* soundEffect = nullptr;
 Mix_Chunk* boomEffect = nullptr;
 Mix_Chunk* dieEffect = nullptr;
 Mix_Chunk* bossDieEffect = nullptr;
+Mix_Chunk* upgradeEffect = nullptr;
 Mix_Music* bgMusic = nullptr;
 
 TTF_Font* font = nullptr;
@@ -90,6 +91,7 @@ void setTexture(){
     boomEffect = Mix_LoadWAV("sounds/boom.WAV");
     dieEffect = Mix_LoadWAV("sounds/die.wav");
     bossDieEffect = Mix_LoadWAV("sounds/explosion.wav");
+    upgradeEffect = Mix_LoadWAV("sounds/upgrade.wav");
     bgMusic = Mix_LoadMUS("sounds/music.mp3");
     Mix_PlayMusic(bgMusic, -1);
 }

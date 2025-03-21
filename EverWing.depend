@@ -12,7 +12,7 @@
 	<SDL_image.h>
 	<SDL_ttf.h>
 
-1742487619 d:\lap trinh nang cao\everwing\information.h
+1742552472 d:\lap trinh nang cao\everwing\information.h
 	"boss.h"
 	<SDL.h>
 	<vector>
@@ -41,7 +41,7 @@
 	<SDL_mixer.h>
 	<SDL_ttf.h>
 
-1742493770 source:d:\lap trinh nang cao\everwing\information.cpp
+1742552472 source:d:\lap trinh nang cao\everwing\information.cpp
 	"information.h"
 	"loadTexture.h"
 
@@ -102,7 +102,7 @@
 	"information.h"
 	"struct.h"
 
-1742539264 source:d:\lap trinh nang cao\everwing\upgrade.cpp
+1742552472 source:d:\lap trinh nang cao\everwing\upgrade.cpp
 	"upgrade.h"
 	"information.h"
 	<algorithm>
@@ -129,7 +129,7 @@
 	"menu.h"
 	"information.h"
 
-1742540219 source:d:\lap trinh nang cao\everwing\game.cpp
+1742552636 source:d:\lap trinh nang cao\everwing\game.cpp
 	"game.h"
 	"quit.h"
 

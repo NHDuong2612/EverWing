@@ -60,6 +60,7 @@ extern Mix_Chunk* soundEffect;
 extern Mix_Chunk* boomEffect;
 extern Mix_Chunk* dieEffect;
 extern Mix_Chunk* bossDieEffect;
+extern Mix_Chunk* upgradeEffect;
 extern Mix_Music* bgMusic;
 extern TTF_Font* font;
 extern SDL_Renderer* renderer;

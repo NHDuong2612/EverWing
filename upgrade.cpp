@@ -8,6 +8,7 @@ void handleUpgrades(std::vector<Upgrade>& upgrades, int& playerX, int& playerY, 
         it->y += 2;
 
         if (playerX < it->x + 20 && playerX + 45 > it->x && playerY < it->y + 20 && playerY + 45 > it->y) {
+            Mix_PlayChannel(-1, upgradeEffect, 0);
             PLAYER_SPEED = std::min(PLAYER_SPEED + 1, 10);
             BULLET_POWER++;
             BULLET_SIZE = std::min(BULLET_SIZE + 1, 30);
