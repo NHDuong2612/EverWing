@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742540454 source:d:\lap trinh nang cao\everwing\main.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\main.cpp
 	"game.h"
 	"menu.h"
 
@@ -31,7 +31,7 @@
 	<SDL_mixer.h>
 	<SDL_ttf.h>
 
-1742474248 source:d:\lap trinh nang cao\everwing\quit.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\quit.cpp
 	"quit.h"
 	"information.h"
 
@@ -57,14 +57,14 @@
 	<vector>
 	<SDL.h>
 
-1742540820 source:d:\lap trinh nang cao\everwing\boss.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\boss.cpp
 	"boss.h"
 	"information.h"
 	"loadTexture.h"
 	<SDL_mixer.h>
 	<algorithm>
 
-1742497440 source:d:\lap trinh nang cao\everwing\enemy.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\enemy.cpp
 	"enemy.h"
 	<cstdlib>
 	"information.h"
@@ -75,7 +75,7 @@
 	<vector>
 	"information.h"
 
-1742497476 source:d:\lap trinh nang cao\everwing\enemyfire.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\enemyfire.cpp
 	"enemyFire.h"
 	"information.h"
 	"loadTexture.h"
@@ -88,7 +88,7 @@
 	"loadTexture.h"
 	<vector>
 
-1742538136 source:d:\lap trinh nang cao\everwing\player.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\player.cpp
 	"player.h"
 	<SDL.h>
 	<SDL_image.h>
@@ -125,7 +125,7 @@
 1742539753 d:\lap trinh nang cao\everwing\menu.h
 	"SDL.h"
 
-1742540219 source:d:\lap trinh nang cao\everwing\menu.cpp
+1742541350 source:d:\lap trinh nang cao\everwing\menu.cpp
 	"menu.h"
 	"information.h"
 
