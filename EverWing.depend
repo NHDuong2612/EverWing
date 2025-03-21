@@ -1,18 +1,19 @@
 # depslib dependency file v1.0
-1742467133 source:d:\lap trinh nang cao\everwing\main.cpp
-	"information.h"
-	"loadTexture.h"
+1742540454 source:d:\lap trinh nang cao\everwing\main.cpp
+	"game.h"
+	"menu.h"
 
 1742467026 source:d:\lap trinh nang cao\everwing\loadtexture.cpp
 	"loadTexture.h"
 	<iostream>
 
-1742467026 d:\lap trinh nang cao\everwing\loadtexture.h
+1742486783 d:\lap trinh nang cao\everwing\loadtexture.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 
-1742467262 d:\lap trinh nang cao\everwing\information.h
+1742487619 d:\lap trinh nang cao\everwing\information.h
+	"boss.h"
 	<SDL.h>
 	<vector>
 	<cstdlib>
@@ -23,4 +24,112 @@
 	<cmath>
 	<SDL_mixer.h>
 	<SDL_TTF.h>
+
+1742541350 d:\lap trinh nang cao\everwing\quit.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+
+1742474248 source:d:\lap trinh nang cao\everwing\quit.cpp
+	"quit.h"
+	"information.h"
+
+1742472141 d:\lap trinh nang cao\everwing\information2.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+
+1742493770 source:d:\lap trinh nang cao\everwing\information.cpp
+	"information.h"
+	"loadTexture.h"
+
+1742541350 d:\lap trinh nang cao\everwing\boss.h
+	"struct.h"
+	<SDL.h>
+	<vector>
+	"loadTexture.h"
+	"information.h"
+	"boss.h"
+
+1742541350 d:\lap trinh nang cao\everwing\struct.h
+	<vector>
+	<SDL.h>
+
+1742540820 source:d:\lap trinh nang cao\everwing\boss.cpp
+	"boss.h"
+	"information.h"
+	"loadTexture.h"
+	<SDL_mixer.h>
+	<algorithm>
+
+1742497440 source:d:\lap trinh nang cao\everwing\enemy.cpp
+	"enemy.h"
+	<cstdlib>
+	"information.h"
+
+1742496366 d:\lap trinh nang cao\everwing\enemy.h
+	"struct.h"
+	"loadTexture.h"
+	<vector>
+	"information.h"
+
+1742497476 source:d:\lap trinh nang cao\everwing\enemyfire.cpp
+	"enemyFire.h"
+	"information.h"
+	"loadTexture.h"
+	<SDL_mixer.h>
+	<algorithm>
+
+1742496366 d:\lap trinh nang cao\everwing\enemyfire.h
+	"information.h"
+	"struct.h"
+	"loadTexture.h"
+	<vector>
+
+1742538136 source:d:\lap trinh nang cao\everwing\player.cpp
+	"player.h"
+	<SDL.h>
+	<SDL_image.h>
+	<algorithm>
+	<cmath>
+
+1742537864 d:\lap trinh nang cao\everwing\player.h
+	<SDL.h>
+	<SDL_mixer.h>
+	<vector>
+	"information.h"
+	"struct.h"
+
+1742539264 source:d:\lap trinh nang cao\everwing\upgrade.cpp
+	"upgrade.h"
+	"information.h"
+	<algorithm>
+	<cmath>
+
+1742539290 d:\lap trinh nang cao\everwing\upgrade.h
+	<vector>
+	"SDL.h"
+	"struct.h"
+
+1742539753 d:\lap trinh nang cao\everwing\game.h
+	"information.h"
+	"player.h"
+	"enemy.h"
+	"boss.h"
+	"upgrade.h"
+	"enemyFire.h"
+	"SDL_ttf.h"
+
+1742539753 d:\lap trinh nang cao\everwing\menu.h
+	"SDL.h"
+
+1742540219 source:d:\lap trinh nang cao\everwing\menu.cpp
+	"menu.h"
+	"information.h"
+
+1742540219 source:d:\lap trinh nang cao\everwing\game.cpp
+	"game.h"
+	"quit.h"
 

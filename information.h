@@ -1,3 +1,6 @@
+#pragma once
+
+#include "boss.h"
 #include <SDL.h>
 #include <vector>
 #include <cstdlib>
@@ -8,85 +11,67 @@
 #include <cmath>
 #include <SDL_mixer.h>
 #include<SDL_TTF.h>
+
 using namespace std;
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const int UPGRADE_DROP_CHANCE = 15;
-int PLAYER_SPEED = 5;
-int BULLET_SPEED = 8;
-int BULLET_SIZE = 10;
-int BULLET_QUANTITY = 1;
-int BULLET_POWER = 2;
-int ENEMY_SPEED = 3;
-int ENEMY_SPAWN_RATE = 50;
-int ENEMY_HEALTH = 4;
-int BOSS_HEALTH = 400;
-int BOSS_SPEED = 2;
-int BOSS_BULLET_SPEED = 7;
-int BOSS_BULLET_SIZE = 20;
-int ENEMY_BULLET_SIZE = 20;
-int ENEMY_BULLET_SPEED = 5;
-int ENEMYFIRE_SPAWN_RATE = 50;
-int upgradeCount = 0;
-int nextUpgradeLevel = 2;
-int bgY1 = 0;
-int bgY2 = -SCREEN_HEIGHT;
-int playerX = SCREEN_WIDTH / 2 - 25;
-int playerY = SCREEN_HEIGHT - 80;
-int score = 0;
-int frameCount = 0;
-int bossCount = 0;
-bool canShoot = true;
-bool running = false;
-bool menu = true;
+extern int SCREEN_WIDTH ;
+extern int SCREEN_HEIGHT ;
+extern int UPGRADE_DROP_CHANCE ;
+extern int PLAYER_SPEED ;
+extern int BULLET_SPEED ;
+extern int BULLET_SIZE ;
+extern int BULLET_QUANTITY ;
+extern int BULLET_POWER;
+extern int ENEMY_SPEED ;
+extern int ENEMY_SPAWN_RATE ;
+extern int ENEMY_HEALTH;
+extern int BOSS_HEALTH ;
+extern int BOSS_SPEED;
+extern int BOSS_BULLET_SPEED ;
+extern int BOSS_BULLET_SIZE ;
+extern int ENEMY_BULLET_SIZE ;
+extern int ENEMY_BULLET_SPEED  ;
+extern int ENEMYFIRE_SPAWN_RATE ;
+extern int upgradeCount ;
+extern int nextUpgradeLevel ;
+extern int bgY1 ;
+extern int bgY2 ;
+extern int playerX ;
+extern int playerY;
+extern int score ;
+extern int frameCount ;
+extern int bossCount ;
+extern bool canShoot;
+extern bool running ;
+extern bool menu ;
+extern SDL_Texture* bossBulletTexture;
+extern SDL_Texture* enemiesFireBulletTexture;
+extern SDL_Texture* enemiesTexture;
+extern SDL_Texture* enemiesFireTexture;
+extern SDL_Texture* playerTexture;
+extern SDL_Texture* upgradeTexture;
+extern SDL_Texture* menuTexture;
+extern SDL_Texture* backgroundTexture;
+extern SDL_Texture* bossTexture[3];
+extern SDL_Texture* currentBossTexture;
+extern SDL_Texture* bulletTextures[5];
+extern SDL_Texture* currentBulletTexture;
+extern Mix_Chunk* soundEffect;
+extern Mix_Chunk* boomEffect;
+extern Mix_Chunk* dieEffect;
+extern Mix_Chunk* bossDieEffect;
+extern Mix_Music* bgMusic;
+extern TTF_Font* font;
+extern SDL_Renderer* renderer;
+extern SDL_Window* window;
+extern SDL_Rect playButton ;
+extern Boss* boss ;
+extern std::vector<Bullet> bullets;
+extern std::vector<Bullet> bossBullets;
+extern std::vector<Bullet> enemiesFireBullets;
+extern std::vector<Enemy> enemies;
+extern std::vector<EnemyFire> enemiesFire;
+extern std::vector<Upgrade> upgrades;
 
-SDL_Texture* bossBulletTexture = nullptr;
-SDL_Texture* enemiesFireBulletTexture = nullptr;
-SDL_Texture* enemiesTexture = nullptr;
-SDL_Texture* enemiesFireTexture = nullptr;
-SDL_Texture* playerTexture = nullptr;
-SDL_Texture* upgradeTexture = nullptr;
-SDL_Texture* menuTexture = nullptr;
-SDL_Texture* bossTexture[3];
-SDL_Texture* currentBossTexture;
-SDL_Texture* bulletTextures[5];
-SDL_Texture* currentBulletTexture;
-Mix_Chunk* soundEffect = nullptr;
-Mix_Chunk* boomEffect = nullptr;
-Mix_Chunk* dieEffect = nullptr;
-Mix_Chunk* bossDieEffect = nullptr;
-TTF_Font* font = nullptr;
-
-SDL_Rect playButton = {300, 300, 180,40};
-
-struct Bullet {
-    int x, y,power;
-};
-
-struct Enemy {
-    int x, y, health;
-};
-
-struct EnemyFire {
-    int x, y, health;
-};
-
-struct Upgrade {
-    int x, y;
-};
-
-struct Boss {
-    int x, y, health;
-    bool movingRight;
-};
-
-Boss* boss = nullptr;
-std::vector<Bullet> bullets;
-std::vector<Bullet> bossBullets;
-std::vector<Bullet> enemiesFireBullets;
-std::vector<Enemy> enemies;
-std::vector<EnemyFire> enemiesFire;
-std::vector<Upgrade> upgrades;
-
-
+void setTexture();
+void startGame();
